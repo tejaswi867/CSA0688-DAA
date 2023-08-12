@@ -1,0 +1,39 @@
+#include <stdio.h>
+int containerLoading(int containerCapacity,int items[],int numItems) {
+    int containers = 0,currentContainer = 0;
+    for (int i = 0; i < numItems-1; i++) {
+        for (int j = 0; j < numItems-i; j++) {
+            if (items[j] < items[j+1]) {
+                int temp = items[j];
+                items[j] = items[j+1];
+                items[j+1] = temp;
+            }
+        }
+    }
+    for (int i=0; i <numItems; i++) {
+        if (currentContainer + items[i] <= containerCapacity) {
+            printf("Item %d: %d\n", i + 1, items[i]);
+            currentContainer += items[i];
+        } else {
+            containers++;
+            currentContainer = items[i];
+            printf("\nContainer %d:\nItem %d: %d\n", containers, i + 1, items[i]);
+        }
+    }    
+    containers++;
+    printf("\nTotal containers used: %d\n", containers);
+}
+int main() {
+    int containerCapacity = 15;
+    int items[] = {1,2,6,7,4,9};
+    int numItems = sizeof(items) / sizeof(items[0]);
+    printf("Container Loading Problem\n");
+    printf("Container capacity: %d\n", containerCapacity);
+    printf("Items:\n");
+    for (int i = 0; i < numItems; i++) {
+        printf("Item %d: %d\n", i + 1, items[i]);
+    }
+    printf("\nLoading items into containers:\n");
+    containerLoading(containerCapacity, items, numItems);
+    return 0;
+}
